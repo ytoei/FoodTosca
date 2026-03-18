@@ -1,1 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food Menu Price Calculator - Yaro Oei March 2026</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 16px;
+      background: #f5f5f5;
+      color: #222;
+    }
 
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 28px;
+    }
+
+    h2 {
+      margin-top: 28px;
+      margin-bottom: 12px;
+      font-size: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    input,
+    select,
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 14px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    .radio-group {
+      margin-bottom: 18px;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .radio-option input {
+      width: auto;
+      margin: 0;
+    }
+
+    button {
+      background: #111;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .result {
+      margin-top: 24px;
+      padding: 16px;
+      background: #f8f8f8;
+      border-radius: 10px;
+    }
+
+    .result p {
+      margin: 8px 0;
+      font-size: 18px;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+
+      .container {
+        padding: 16px;
+        border-radius: 10px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      h2 {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Food Cost Calculator</h1>
+
+    <h2>Recipe</h2>
+    <label for="recipeTitle">Recipe title</label>
+    <input id="recipeTitle">
+
+    <label>Category</label>
+    <div class="radio-group">
+      <label class="radio-option"><input type="radio" name="category" value="primi" checked> Primi</label>
+      <label class="radio-option"><input type="radio" name="category" value="other"> Stuzzi / Antipasti / Secondi / Dolci</label>
+    </div>
+
+    <h2>Ingredient 1</h2>
+    <label for="name1">Name</label>
+    <input id="name1">
+
+    <label for="type1">Type</label>
+    <select id="type1">
+      <option value="kg">Per kg</option>
+      <option value="piece">Per piece</option>
+    </select>
+
+    <label for="price1">Price (per kg or per piece)</label>
+    <input id="price1" type="number" step="0.01">
+
+    <label for="amount1">Amount used (kg or pieces)</label>
+    <input id="amount1" type="number" step="0.01">
+
+    <h2>Ingredient 2 (OPTIONAL, ONLY WHEN THE SECOND INGREDIENT IS VERY EXPENSIVE) </h2>
+    <label for="name2">Name</label>
+    <input id="name2">
+
+    <label for="type2">Type</label>
+    <select id="type2">
+      <option value="kg">Per kg</option>
+      <option value="piece">Per piece</option>
+    </select>
+
+    <label for="price2">Price (per kg or per piece)</label>
+    <input id="price2" type="number" step="0.01">
+
+    <label for="amount2">Amount used (kg or pieces)</label>
+    <input id="amount2" type="number" step="0.01">
+
+    <h2>Portions</h2>
+    <label for="portions">Number of portions</label>
+    <input id="portions" type="number" step="1">
+
+    <button onclick="calculateCost()">Calculate</button>
+
+    <div class="result">
+      <h2>Result</h2>
+      <p id="costPerPortion"></p>
+      <p id="finalPrice"></p>
+    </div>
+  </div>
+
+  <script>
+    function getIngredientCost(priceId, amountId) {
+      const price = parseFloat(document.getElementById(priceId).value) || 0;
+      const amount = parseFloat(document.getElementById(amountId).value) || 0;
+      return price * amount;
+    }
+
+    function calculateCost() {
+      const cost1 = getIngredientCost("price1", "amount1");
+      const cost2 = getIngredientCost("price2", "amount2");
+
+      const total = cost1 + cost2;
+      const portions = parseFloat(document.getElementById("portions").value) || 0;
+      const perPortion = portions > 0 ? total / portions : 0;
+
+      const category = document.querySelector('input[name="category"]:checked').value;
+
+      let finalPriceValue = 0;
+
+      if (category === "primi") {
+        const a = 2;
+        const b = 14;
+        finalPriceValue = a * perPortion + b;
+      } else {
+        const c = 4 * 1.09;
+        finalPriceValue = c * perPortion;
+      }
+
+      document.getElementById("costPerPortion").textContent =
+        "Cost per portion: €" + perPortion.toFixed(2);
+
+      document.getElementById("finalPrice").textContent =
+        "Menu price: €" + finalPriceValue.toFixed(2);
+    }
+  </script>
+      <p style="margin-top:30px; font-size:12px; color:#999; text-align:center;">© 2026 Yaro Oei</p>
+</body>
+</html>
