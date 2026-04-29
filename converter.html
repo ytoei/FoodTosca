@@ -120,21 +120,17 @@
 <body>
   <div class="container">
     <h1>Food Cost Calculator</h1>
-
-    <h2>Recipe</h2>
-    <label for="recipeTitle">Recipe title (optional)</label>
-    <input id="recipeTitle">
-
     <label>Category</label>
     <div class="radio-group">
+      <label class="radio-option"><input type="radio" name="category" value="stuzzi" checked> Stuzzi</label>
+      <label class="radio-option"><input type="radio" name="category" value="antipasti" checked> Antipasti</label>
       <label class="radio-option"><input type="radio" name="category" value="primi" checked> Primi</label>
-      <label class="radio-option"><input type="radio" name="category" value="other"> Stuzzi / Antipasti / Secondi / Dolci</label>
+      <label class="radio-option"><input type="radio" name="category" value="secondi" checked> Secondi</label>
+      <label class="radio-option"><input type="radio" name="category" value="dolci" checked> Dolci</label>
     </div>
 
     <h2>Ingredient 1</h2>
-    <label for="name1">Name</label>
-    <input id="name1">
-
+  
     <label for="type1">Type</label>
     <select id="type1">
       <option value="kg">Per kg</option>
@@ -151,9 +147,7 @@
 
     <div id="ingredient2Section" class="hidden">
       <h2>Ingredient 2 (optional, only when the second ingredient is very expensive)</h2>
-      <label for="name2">Name</label>
-      <input id="name2">
-
+    
       <label for="type2">Type</label>
       <select id="type2">
         <option value="kg">Per kg</option>
@@ -212,8 +206,6 @@
 
     function calculateCost() {
       // set recipe title (always update)
-      const title = document.getElementById("recipeTitle").value;
-      document.getElementById("resultTitle").textContent = title ? title : "";
       const cost1 = getIngredientCost("price1", "amount1");
       const cost2 = useSecondIngredient ? getIngredientCost("price2", "amount2") : 0;
       const total = cost1 + cost2;
@@ -230,14 +222,32 @@
 
       let finalPriceValue = 0;
 
-      if (category === "primi") {
+      if (category === "stuzzi") {
+        const c = 4 * 1.09;
+        finalPriceValue = c * perPortion;
+      } 
+      else if (category === "antipasti") {
         const a = 2;
         const b = 14;
         finalPriceValue = a * perPortion + b;
-      } else {
+      }
+      else if (category === "primi") {
+        const a = 2;
+        const b = 14;
+        finalPriceValue = a * perPortion + b;
+      }
+      else if (category === "secondi") { 
         const c = 4 * 1.09;
         finalPriceValue = c * perPortion;
       }
+      else if (category === "dolci") { 
+        const c = 4 * 1.09;
+        finalPriceValue = c * perPortion;
+      }
+      else {
+        document.getElementById("finalPrice").textContent = "Please enter a category (e.g., antipasti).";
+      }
+
 
       document.getElementById("costPerPortion").textContent =
         "Cost per portion: €" + perPortion.toFixed(2);
