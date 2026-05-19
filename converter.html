@@ -223,26 +223,30 @@
       let finalPriceValue = 0;
 
       if (category === "stuzzi") {
-        const c = 4000 * 1.09;
-        finalPriceValue = c * perPortion;
+        const a = 8.0;
+        const b = -0.2;
+        finalPriceValue = a * perPortion + b;
       } 
       else if (category === "antipasti") {
-        const a = 2;
-        const b = 14;
+        const a = 4;
+        const b = 10;
         finalPriceValue = a * perPortion + b;
       }
       else if (category === "primi") {
-        const a = 2;
-        const b = 14;
+        const a = 4.9;
+        const b = 8.1;
         finalPriceValue = a * perPortion + b;
       }
       else if (category === "secondi") { 
-        const c = 4 * 1.09;
-        finalPriceValue = c * perPortion;
+        const a = 3.3;
+        const b = 9.8;
+        finalPriceValue = a * perPortion + b;
+        
       }
       else if (category === "dolci") { 
-        const c = 4 * 1.09;
-        finalPriceValue = c * perPortion;
+        const a = 6.3;
+        const b = 5.3;
+        finalPriceValue = a * perPortion + b;
       }
       else {
         document.getElementById("finalPrice").textContent = "Please enter a category (e.g., antipasti).";
